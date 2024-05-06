@@ -8,7 +8,6 @@ test('renders todo item', () => {
   const todoContent = getByText('Test todo');
   expect(todoContent).toBeInTheDocument();
 });
-
 test('calls onToggle when checkbox is clicked', () => {
   const todo = { id: 1, content: 'Test todo', completed: false };
   const onToggle = jest.fn();
