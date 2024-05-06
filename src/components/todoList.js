@@ -50,18 +50,18 @@ const TodoList = () => {
 
   return (
     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
-      <div style={{ maxWidth: 400, padding: 16 }}>
-        <h1 style={{ textAlign: 'center', marginBottom: 16 }}>Todo List</h1>
-        <TodoForm inputValue={inputValue} onAdd={addTodo} onChange={setInputValue} />
-        <ul>{todoItems}</ul>
-        <p style={{ textAlign: 'center', marginTop: 16 }}>
-          Total todos: {totalTodos} 
-        </p>
-        <p style={{ textAlign: 'center', marginTop: 16 }}>
-          Completed todos: {completedTodos}
-        </p>
-      </div>
+    <div style={{ maxWidth: 400, padding: 16, border: '3px solid #ccc', borderRadius: 8 }}>
+      <h1 style={{ textAlign: 'center', marginBottom: 16 }}>To-Do List</h1>
+      <TodoForm inputValue={inputValue} onAdd={addTodo} onChange={setInputValue} />
+      <ul>{todoItems}</ul>
+      <p style={{ textAlign: 'center', marginTop: 16 }}>
+        Total todos: {totalTodos} 
+      </p>
+      <p style={{ textAlign: 'center', marginTop: 16 }}>
+        Completed todos: {completedTodos}
+      </p>
     </div>
+  </div>
   );
 };
 
@@ -70,7 +70,7 @@ const TodoForm = ({ inputValue, onAdd, onChange }) => {
     <form onSubmit={onAdd} style={{ display: 'flex', marginBottom: 16 }}>
       <TextField
         variant="outlined"
-        label="Add a new todo"
+        label="Add a new task"
         value={inputValue}
         onChange={(e) => onChange(e.target.value)}
         style={{ flex: 1, marginRight: 8 }}
