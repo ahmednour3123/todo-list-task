@@ -33,7 +33,13 @@ const TodoList = () => {
     ));
   }, [todos, toggleTodo, deleteTodo]);
 
+  const totalTodos = useMemo(() => {
+    return todos.length;
+  }, [todos]);
 
+  const completedTodos = useMemo(() => {
+    return todos.filter((todo) => todo.completed).length;
+  }, [todos]);
 
   return (
     <div>
@@ -42,7 +48,9 @@ const TodoList = () => {
       <ul>
         {todoItems}
       </ul>
-      
+      <p>
+        Total todos: {totalTodos} Completed todos: {completedTodos}
+      </p>
     </div>
   );
 };
