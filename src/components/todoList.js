@@ -1,8 +1,15 @@
 import React, { useState, useCallback, useMemo } from 'react';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import Checkbox from '@mui/material/Checkbox';
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { useMediaQuery } from '@mui/material';
 
 const TodoList = () => {
   const [todos, setTodos] = useState([]);
   const [inputValue, setInputValue] = useState('');
+  const isSmallScreen = useMediaQuery('(max-width:600px)');
 
   const addTodo = useCallback((e) => {
     e.preventDefault();
@@ -14,12 +21,12 @@ const TodoList = () => {
 
   const toggleTodo = useCallback((id) => {
     setTodos(
-      todos.map((todo) => (todo.id === id? {...todo, completed:!todo.completed } : todo))
+      todos.map((todo) => (todo.id === id ? { ...todo, completed: !todo.completed } : todo))
     );
   }, [todos]);
 
   const deleteTodo = useCallback((id) => {
-    setTodos(todos.filter((todo) => todo.id!== id));
+    setTodos(todos.filter((todo) => todo.id !== id));
   }, [todos]);
 
   const todoItems = useMemo(() => {
@@ -42,47 +49,58 @@ const TodoList = () => {
   }, [todos]);
 
   return (
-    <div>
-      <h1>Todo List</h1>
-      <TodoForm inputValue={inputValue} onAdd={addTodo} onChange={setInputValue} />
-      <ul>
-        {todoItems}
-      </ul>
-      <p>
-        Total todos: {totalTodos} Completed todos: {completedTodos}
-      </p>
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
+      <div style={{ maxWidth: 400, padding: 16 }}>
+        <h1 style={{ textAlign: 'center', marginBottom: 16 }}>Todo List</h1>
+        <TodoForm inputValue={inputValue} onAdd={addTodo} onChange={setInputValue} />
+        <ul>{todoItems}</ul>
+        <p style={{ textAlign: 'center', marginTop: 16 }}>
+          Total todos: {totalTodos} 
+        </p>
+        <p style={{ textAlign: 'center', marginTop: 16 }}>
+          Completed todos: {completedTodos}
+        </p>
+      </div>
     </div>
   );
 };
 
 const TodoForm = ({ inputValue, onAdd, onChange }) => {
   return (
-    <form onSubmit={onAdd}>
-      <input
-        type="text"
+    <form onSubmit={onAdd} style={{ display: 'flex', marginBottom: 16 }}>
+      <TextField
+        variant="outlined"
+        label="Add a new todo"
         value={inputValue}
         onChange={(e) => onChange(e.target.value)}
-        placeholder="Add a new todo"
+        style={{ flex: 1, marginRight: 8 }}
       />
-      <button type="submit">Add</button>
+      <Button type="submit" variant="contained" color="primary">
+        Add
+      </Button>
     </form>
   );
 };
 
 const TodoItem = ({ todo, onToggle, onDelete }) => {
   return (
-    <li>
-      <input
-        type="checkbox"
+    <li style={{ display: 'flex', alignItems: 'center', marginBottom: 8 }}>
+      <Checkbox
         checked={todo.completed}
         onChange={() => onToggle(todo.id)}
       />
-      <span style={{ textDecoration: todo.completed? 'line-through' : 'none' }}>
+      <span
+        style={{
+          textDecoration: todo.completed ? 'line-through' : 'none',
+          marginLeft: 8,
+          flex: 1
+        }}
+      >
         {todo.content}
       </span>
-      <button type="button" onClick={() => onDelete(todo.id)}>
-        Delete
-      </button>
+      <IconButton onClick={() => onDelete(todo.id)} style={{ marginLeft: 'auto' }}>
+        <DeleteIcon />
+      </IconButton>
     </li>
   );
 };
