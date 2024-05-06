@@ -18,9 +18,20 @@ const TodoList = () => {
     );
   }, [todos]);
 
-  
+  const deleteTodo = useCallback((id) => {
+    setTodos(todos.filter((todo) => todo.id!== id));
+  }, [todos]);
 
-
+  const todoItems = useMemo(() => {
+    return todos.map((todo) => (
+      <TodoItem
+        key={todo.id}
+        todo={todo}
+        onToggle={toggleTodo}
+        onDelete={deleteTodo}
+      />
+    ));
+  }, [todos, toggleTodo, deleteTodo]);
 
 
 
@@ -29,6 +40,7 @@ const TodoList = () => {
       <h1>Todo List</h1>
       <TodoForm inputValue={inputValue} onAdd={addTodo} onChange={setInputValue} />
       <ul>
+        {todoItems}
       </ul>
       
     </div>
@@ -49,6 +61,22 @@ const TodoForm = ({ inputValue, onAdd, onChange }) => {
   );
 };
 
-
+const TodoItem = ({ todo, onToggle, onDelete }) => {
+  return (
+    <li>
+      <input
+        type="checkbox"
+        checked={todo.completed}
+        onChange={() => onToggle(todo.id)}
+      />
+      <span style={{ textDecoration: todo.completed? 'line-through' : 'none' }}>
+        {todo.content}
+      </span>
+      <button type="button" onClick={() => onDelete(todo.id)}>
+        Delete
+      </button>
+    </li>
+  );
+};
 
 export default TodoList;
